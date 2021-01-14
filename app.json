@@ -1,0 +1,30 @@
+{
+    "name": "Heroku Mercury Discord bot",
+    "description": "Experimental Discord bot",
+    "repository": "https://github.com/sertolabs/mercury-discord-bot",
+    "keywords": [
+      "node",
+      "daf",
+      "identity",
+      "verifiable-credentials",
+      "discord"
+    ],
+    "env": {
+      "AGENT_URL": {
+        "description": "Agent URL",
+        "value": "https://sun-agent.herokuapp.com/agent"
+      },
+      "AGENT_API_KEY": {
+        "description": "Agent API key",
+        "value": ""
+      },
+      "DISCORD_BOT_DID_ALIAS": {
+        "description": "Discord bot DID alias",
+        "value": "sun-agent.herokuapp.com:mercury"
+      },
+      "DISCORD_TOKEN": {
+        "description": "Discord token",
+        "value": ""
+      }
+    }
+  }

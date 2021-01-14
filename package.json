@@ -1,0 +1,33 @@
+{
+  "name": "mercury-discord-bot",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/sertolabs/mercury-discord-bot",
+  "author": "Simonas Karuzas <simonas@not.cat>",
+  "license": "MIT",
+  "scripts": {
+    "start": "NODE_ENV=production node build/bot.js",
+    "build": "tsc",
+    "watch": "tsc -w",
+    "postinstall": "tsc",
+    "upgrade-veramo": "yarn add @veramo/core @veramo/remote-client @veramo/data-store @veramo/credential-w3c"
+  },
+  "dependencies": {
+    "@veramo/core": "^1.0.1",
+    "@veramo/credential-w3c": "^1.0.1",
+    "@veramo/data-store": "^1.0.1",
+    "@veramo/remote-client": "^1.0.1",
+    "discord.js": "^12.5.1",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "typescript": "^4.1.2"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.9",
+    "@types/node": "^14.14.10",
+    "@types/ws": "^7.4.0"
+  },
+  "engines": {
+    "node": "12.x"
+  }
+}
