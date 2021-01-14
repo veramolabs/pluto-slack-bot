@@ -1,5 +1,5 @@
-# mercury-discord-bot
-Experimental Discord bot
+# pluto-slack-bot
+Experimental Veramo Slack bot
 
 ## Environment variables
 
@@ -9,9 +9,9 @@ Experimental Discord bot
 
 `AGENT_API_KEY` - agent api key
 
-`DISCORD_BOT_DID_ALIAS` - `sun-agent.herokuapp.com:mercury`
+`SLACK_BOT_DID_ALIAS` - `sun-agent.herokuapp.com:pluto`
 
-`DISCORD_TOKEN` - https://discord.com/developers/applications/ > Select app > Bot > Token
+`SLACK_TOKEN` - https://slack.com/developers/applications/ > Select app > Bot > Token
 
 ## Deploy
 

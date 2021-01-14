@@ -40,7 +40,7 @@ const app = express()
 
 app.get('/', async (req, res) => {
  
-  res.send('Mercury')
+  res.send('Pluto')
 })
 
 app.listen(process.env.PORT, async () => {

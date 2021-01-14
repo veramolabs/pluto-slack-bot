@@ -11,7 +11,7 @@ export const createMessageCredential = async (message: Discord.Message) => {
     where: [
       { column: 'issuer', value: [author.did] },
       { column: 'subject', value: [message.url] },
-      { column: 'type', value: ['VerifiableCredential,Mercury,Message']}
+      { column: 'type', value: ['VerifiableCredential,Pluto,Message']}
     ]
   })
 
@@ -34,7 +34,7 @@ export const createMessageCredential = async (message: Discord.Message) => {
       proofFormat: 'jwt',
       credential: {
         '@context': ['https://www.w3.org/2018/credentials/v1'],
-        type: ['VerifiableCredential', 'Mercury', 'Message'],
+        type: ['VerifiableCredential', 'Pluto', 'Message'],
         issuer: { id: author.did },
         issuanceDate: new Date(message.createdTimestamp).toISOString(),
         credentialSubject

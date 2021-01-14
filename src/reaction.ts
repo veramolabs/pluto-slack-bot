@@ -30,7 +30,7 @@ export const createReactionCredential = async (reaction: Discord.MessageReaction
     proofFormat: 'jwt',
     credential: {
       '@context': ['https://www.w3.org/2018/credentials/v1'],
-      type: ['VerifiableCredential', 'Mercury', 'Reaction'],
+      type: ['VerifiableCredential', 'Pluto', 'Reaction'],
       issuer: { id: reactionAuthor.did },
       issuanceDate: new Date().toISOString(),
       credentialSubject

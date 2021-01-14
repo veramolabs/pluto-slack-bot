@@ -1,8 +1,8 @@
 {
-  "name": "mercury-discord-bot",
+  "name": "pluto-slack-bot",
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "https://github.com/sertolabs/mercury-discord-bot",
+  "repository": "https://github.com/veramolabs/pluto-slack-bot",
   "author": "Simonas Karuzas <simonas@not.cat>",
   "license": "MIT",
   "scripts": {
