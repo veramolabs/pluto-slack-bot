@@ -13,11 +13,12 @@
     "upgrade-veramo": "yarn add @veramo/core @veramo/remote-client @veramo/data-store @veramo/credential-w3c"
   },
   "dependencies": {
+    "@slack/bolt": "^3.0.0",
+    "@slack/types": "^2.0.0",
     "@veramo/core": "^1.0.1",
     "@veramo/credential-w3c": "^1.0.1",
     "@veramo/data-store": "^1.0.1",
     "@veramo/remote-client": "^1.0.1",
-    "discord.js": "^12.5.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "typescript": "^4.1.2"

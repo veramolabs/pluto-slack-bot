@@ -1,49 +1,51 @@
 import { config } from 'dotenv'
 config()
-import express from 'express'
-import Discord from 'discord.js'
+import { App, LogLevel } from '@slack/bolt'
 import { agent } from './agent'
-import { getIdentity } from './profile'
-import { createReactionCredential } from './reaction'
+import { credentialCreatedSuccess } from './views/create-credential-success'
+import { createMessageCredential } from './message'
 
-const client = new Discord.Client({ 
-  partials: ['MESSAGE', 'REACTION'] 
+const app = new App({
+  token: process.env.SLACK_TOKEN,
+  signingSecret: process.env.SLACK_SIGNING_SECRET,
+  logLevel: LogLevel.ERROR,
 })
 
-client.on('messageReactionAdd', async (reaction, user) => {
-  console.log(reaction)
-	if (reaction.partial) {
-		try {
-			await reaction.fetch()
-		} catch (error) {
-			console.error('Something went wrong when fetching the message: ', error)
-			return
-		}
+app.shortcut(
+  { type: 'message_action', callback_id: 'create_vc' },
+  async ({ ack, shortcut, client, payload }) => {
+    try {
+      await ack()
+
+      await createMessageCredential({
+        client_msg_id: shortcut.message.client_msg_id,
+        text: shortcut.message.text as string,
+        user: shortcut.message.user as string,
+        ts: shortcut.message.ts
+      }, client)
+
+      await client.views.open({
+        trigger_id: shortcut.trigger_id,
+        view: credentialCreatedSuccess,
+      });
+    } catch (error) {
+      console.error(error)
+    }
   }
+)
 
-  const reactionAuthor = await getIdentity(user as Discord.User)
-  await createReactionCredential(reaction, reactionAuthor)
-})
+const main = async () => {
 
-client.once('ready', async() => {
-  if (!process.env.DISCORD_BOT_DID_ALIAS) throw Error('DISCORD_BOT_DID_ALIAS is missing')
+  if (!process.env.PORT) throw Error('PORT not defined')
+  if (!process.env.SLACK_BOT_DID_ALIAS) throw Error('SLACK_BOT_DID_ALIAS not defined')
 
-  const bot = await agent.didManagerGetOrCreate({
-    alias: process.env.DISCORD_BOT_DID_ALIAS,
-    provider: 'did:web'
+  await agent.didManagerGetOrCreate({
+    provider: 'did:web',
+    alias: process.env.SLACK_BOT_DID_ALIAS
   })
 
-  console.log(bot.did, 'is ready')
-})
+  await app.start(parseInt(process.env.PORT, 10))
+  console.log('⚡️ Pluto is running!!!')
+}
 
-const app = express()
-
-app.get('/', async (req, res) => {
- 
-  res.send('Pluto')
-})
-
-app.listen(process.env.PORT, async () => {
-  console.log(`Server running on port: ${process.env.PORT}`)
-  client.login(process.env.DISCORD_TOKEN)
-})
+main().catch(console.error)

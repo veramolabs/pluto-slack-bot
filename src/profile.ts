@@ -1,4 +1,3 @@
-import Discord from 'discord.js'
 import { IIdentifier } from '@veramo/core'
 import { agent } from './agent'
 
@@ -10,19 +9,20 @@ export interface UserInfo {
   picture: string
 }
 
-export const getIdentity = async (user: Discord.User) => {
-  return getIdentityAndUpdateProfile({
-    provider: 'did:web',
-    alias: process.env.DISCORD_BOT_DID_ALIAS + ':' + user.id,
-    name: user.username,
-    nickname: `${user.username}#${user.discriminator}`,
-    picture: user.displayAvatarURL({format: "png"}),
+export const getIdentifier = async (slackUserId: string, client: any) => {
+  const result: any = await client.users.info({ user: slackUserId })
+  return getIdentifierAndUpdateProfile({
+      provider: 'did:web',
+      alias: process.env.SLACK_BOT_DID_ALIAS + ':' + slackUserId,
+      nickname: result.user?.name,
+      picture: result.user?.profile?.image_512,
+      name: result.user?.profile?.real_name
   })
 }
 
-export const getIdentityAndUpdateProfile = async ( userInfo: UserInfo ): Promise<IIdentifier> => {
+export const getIdentifierAndUpdateProfile = async ( userInfo: UserInfo ): Promise<IIdentifier> => {
 
-  if (!process.env.DISCORD_BOT_DID_ALIAS) throw Error('DISCORD_BOT_DID_ALIAS is missing')
+  if (!process.env.SLACK_BOT_DID_ALIAS) throw Error('SLACK_BOT_DID_ALIAS is missing')
 
   const identity = await agent.didManagerGetOrCreate({
     alias: userInfo.alias,
@@ -51,7 +51,7 @@ export const getIdentityAndUpdateProfile = async ( userInfo: UserInfo ): Promise
       credential: {
         '@context': ['https://www.w3.org/2018/credentials/v1'],
         type: ['VerifiableCredential', 'Profile'],
-        issuer: { id: 'did:web:' + process.env.DISCORD_BOT_DID_ALIAS },
+        issuer: { id: 'did:web:' + process.env.SLACK_BOT_DID_ALIAS },
         issuanceDate: new Date().toISOString(),
         credentialSubject: {
           id: identity.did,
